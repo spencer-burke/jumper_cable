@@ -15,7 +15,8 @@ module JumperCable
 
     def resolve_path(name, params)
       segments = [name.to_s] + params.map {|p| ":#{p}"}
-      "/#{segments.join("/")}"
+
+      return("/#{segments.join("/")}")
     end
   end
 end

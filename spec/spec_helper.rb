@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+ENV["RAILS_ENV"] = "test"
+
+require File.expand_path("dummy/config/environment", __dir__)
+require "rspec/rails"
 require "jumper_cable"
 
 RSpec.configure do |config|
