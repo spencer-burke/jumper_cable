@@ -2,6 +2,7 @@ PATH
   remote: ../..
   specs:
     jumper_cable (0.1.0)
+      railties (>= 7.0)
 
 GEM
   remote: https://rubygems.org/
