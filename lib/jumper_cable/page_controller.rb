@@ -1,5 +1,5 @@
 module JumperCable
-  class PageController < ApplicationController
+  class PageController < ActionController::Base
     def page
     end
   end
