@@ -7,10 +7,28 @@ module JumperCable
       get path, to: "#{controller}#page"
     end
 
+    def namespace(name, &block)
+      scope "/#{name}" do
+        with_namespace(name) { yield }
+      end
+    end
+
     private
 
+    def with_namespace(name, &block)
+      @_jc_namespace = name
+
+      yield
+
+      @_jc_namespace = nil
+    end
+
     def resolve_controller(name)
-      "pages/#{name}_page"
+      if @_jc_namespace
+        return "pages/#{@_jc_namespace}/#{name}_page"
+      end
+
+      return "pages/#{name}_page"
     end
 
     def resolve_path(name, params)
