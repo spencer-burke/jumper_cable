@@ -81,9 +81,9 @@ end
 ```
 ## Generator Example
 ```bash
-rails generate page Login
+rails generate jumper_cable:page Dashboard
 ```
-This creates the LoginController that extends the page controller.
+This creates the dashboard_page_controller that extends the page controller.
 ## Page View Example
 ```erb
 <%= turbo_frame_tag "user-profile-card" %>
