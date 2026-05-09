@@ -1,46 +1,81 @@
 # JumperCable
 
-JumperCable facilitates for direct organization of hotwire apps, by creating a pattern for "page controllers". It extends the routing dsl to have a specific route for pages, and also provides a generator to automatically create pages, and their views.
+Hotwire and MVC is a powerful combination for building maintainable, accessible Rails applications.
+But as your app grows, the presentation layer gets scattered across different controllers:
+- login form in `sessions#new`
+- signup in `registrations#new`
+- profiles in `users#show`
 
-### Routing DSL Updates:
-```ruby
-page :login # creates the route: GET /login to /pages/login_page/#page
-page :profile, params [:id] # creates the route: GET /profile to /pages/profile/:id to /pages/profile_page/#page
-namespace :about do
-  page :team # creates the route: GET /about/team to /pages/about/team_page#page
-end
-```
+Finding which controller renders which page becomes ambiguous.
+
+JumperCable solves this by codifying a "page controller" pattern. 
+Every page in your app gets a single canonical home, making your application's structure immediately navigable.
+
+Think of your resource controllers as an **engine**... it handles the business logic and data.
+Pages are the presentation layer, and turbo frames are the **jumper cables**... wires that connect your engine to presentation of your app.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
-Install the gem and add to the application's Gemfile by executing:
+Add to your Gemfile:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-```
-
-If bundler is not being used to manage dependencies, install the gem by executing:
-
-```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle add jumper_cable
 ```
 
 ## Usage
 
-TODO: Write usage instructions here
+### Routing DSL
 
-## Development
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  page :login                    # GET /login -> pages/login_page#page
+  page :profile, params: [:id]   # GET /profile/:id -> pages/profile_page#page
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+  namespace :about do
+    page :team                   # GET /about/team -> pages/about/team_page#page
+  end
+end
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Generator
+
+```bash
+rails generate jumper_cable:page Login
+# creates app/controllers/pages/login_page_controller.rb
+# creates app/views/pages/login_page/page.html.erb
+
+rails generate jumper_cable:page About::Team
+# creates app/controllers/pages/about/team_page_controller.rb
+# creates app/views/pages/about/team_page/page.html.erb
+```
+
+### Page Controllers
+
+Page controllers inherit from `JumperCable::PageController` and define a single `page` action:
+
+```ruby
+class Pages::LoginPageController < JumperCable::PageController
+  def page
+    # optionally fetch data for the page
+  end
+end
+```
+
+### Page Views
+
+Pages are shells for Turbo Frames. Resource controllers power the frames — pages just wire them together:
+
+```erb
+<%# app/views/pages/login_page/page.html.erb %>
+<%= turbo_frame_tag "login-form" %>
+<%= turbo_frame_tag "login-errors" %>
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/spencer-burke/jumper_cable. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/spencer-burke/jumper_cable/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/spencer-burke/jumper_cable.
 
-## Code of Conduct
+## License
 
-Everyone interacting in the JumperCable project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/spencer-burke/jumper_cable/blob/main/CODE_OF_CONDUCT.md).
+MIT
