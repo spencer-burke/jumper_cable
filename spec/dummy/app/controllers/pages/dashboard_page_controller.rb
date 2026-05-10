@@ -1,4 +1,4 @@
 class Pages::DashboardPageController < JumperCable::PageController
-    def page
-    end
+  def page
+  end
 end

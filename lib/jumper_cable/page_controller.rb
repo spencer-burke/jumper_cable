@@ -1,5 +1,5 @@
 module JumperCable
-  class PageController < ActionController::Base
+  class PageController < JumperCable.configuration.base_controller.constantize
     def page
     end
   end

@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.license = "MIT"
 
   spec.summary = "Organizes hotwire apps by creating pages"
-  spec.description = "Extends the routing dsl, and adds a generator to automatically \"page controllers\""
+  spec.description = "Extends the routing dsl, and adds a generator to automatically generate \"page controllers\""
   spec.homepage = "https://github.com/spencer-burke/jumper_cable"
   spec.required_ruby_version = ">= 3.2.0"
 
