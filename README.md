@@ -74,13 +74,17 @@ Pages are shells for Turbo Frames. Resource controllers power the frames — pag
 
 ### Configure PageController Class
 
-You can configure the base class by adding an initializer in your config directory.
+You can do configuration by adding an initializer
 
 ```ruby
 JumperCable.configure do |config|
-  config.base_controller = "ApplicationController"
+  # configuration
 end
 ```
+
+### Rails 8 Authentication Usage
+
+To use the pages with the rails 8 auth generator, make sure to include the authentication concern.
 
 ## Contributing
 
