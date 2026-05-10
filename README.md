@@ -72,6 +72,16 @@ Pages are shells for Turbo Frames. Resource controllers power the frames — pag
 <%= turbo_frame_tag "login-errors" %>
 ```
 
+### Configure PageController Class
+
+You can configure the base class by adding an initializer in your config directory.
+
+```ruby
+JumperCable.configure do |config|
+  config.base_controller = "ApplicationController"
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/spencer-burke/jumper_cable.
